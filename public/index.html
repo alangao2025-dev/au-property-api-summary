@@ -1,0 +1,74 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>澳洲房产数据 API 对比摘要</title>
+<style>
+body{font:16px/1.7 system-ui,sans-serif;max-width:900px;margin:0 auto;padding:24px;color:#1f2937;background:#f9fafb}
+h1{font-size:26px}h2{margin-top:32px;border-bottom:2px solid #e5e7eb;padding-bottom:6px}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:14px}th,td{border:1px solid #e5e7eb;padding:8px;text-align:left;vertical-align:top}th{background:#eef2ff}
+.box{background:#fff;border-left:4px solid #6366f1;padding:10px 16px;margin:12px 0}
+.warn{border-color:#ef4444}small{color:#6b7280}
+</style></head><body>
+<h1>澳洲房产数据 API 对比摘要</h1>
+<p><small>来源:13Labs《Australian Property Data APIs Compared》(2026-07-29)。临时摘要页,非原文。<br><a href="https://www.13labs.au/guides/australian-property-data-apis-compared">原文链接</a></small></p>
+
+<div class="box"><b>核心结论:</b>四家(Domain、Pricefinder、PropTrack、Cotality)都不公开 API 价格;只有 Domain 可自助申请 key。其余三家需通过客户经理/合同,项目第一步是销售沟通而非写代码。</div>
+
+<h2>四家对比</h2>
+<table><tr><th>提供方</th><th>文档</th><th>获取方式</th><th>公开 API 价格</th></tr>
+<tr><td>Domain Developer API</td><td>公开门户 + 沙盒</td><td>自助建项目拿 key</td><td>无</td></tr>
+<tr><td>Pricefinder</td><td>公开 Swagger</td><td>仅客户经理</td><td>无</td></tr>
+<tr><td>PropTrack</td><td>公开 Stoplight 门户</td><td>仅客户经理</td><td>无</td></tr>
+<tr><td>Cotality(原 CoreLogic)</td><td>需登录(401)</td><td>仅合同</td><td>无</td></tr></table>
+
+<h2>所有权</h2>
+<ul><li>CoStar 于 2025-08-27 完成收购 Domain Holdings(企业价值约 A$30 亿),因此同时拥有 Domain API 与 Pricefinder。</li>
+<li>CoreLogic 于 2025-03-24 全球更名 Cotality;澳洲主体仍为 RP Data Pty Ltd。</li>
+<li>PropTrack 属 REA Group(realestate.com.au 运营方)。实质是 CoStar、Cotality、REA 三家。</li></ul>
+
+<h2>Domain</h2>
+<ul><li>13 个 API 包:地址建议、房源、房产、估价、租金 AVM、学校、Webhooks 等。</li>
+<li>唯一公布限流:1,000–3,000 次/分钟(视套餐);每日配额于 AEST 10am 重置;超限返回 429。</li>
+<li>SLA:月可用性 99%,P95 响应 &lt;900ms;责任上限 AUD 5,000。</li>
+<li>价格:按合同 Product Schedule(AUD、不含 GST),按行业与月调用量分档。</li></ul>
+<div class="box warn"><b>Domain 条款的限制:</b>
+<ul><li>7.6(d) 不得转售/分发给第三方</li><li>7.6(g) 不得做衍生作品</li><li>7.6(j) 数据不得在澳洲境外存储/使用(须境内托管)</li><li>7.6(k) 不得用于任何直接营销(如屋主开发)</li><li>16.5 终止后须删除缓存数据,可被审计</li><li>17.1 基于其房源的页面须 no-index、标注 Powered by Domain、回传事件 → 无法做程序化 SEO</li></ul></div>
+
+<h2>Pricefinder</h2>
+<ul><li>Swagger 公开:v1.13.1,112 个路径、188 个 schema、19 个标签,OAuth2。</li>
+<li>功能:可比成交搜索、多边形搜索、AVM(售价/租金/收益率)、CMA PDF、SSO 跳转。</li>
+<li>多数集成需用<b>终端用户自己的付费 Pricefinder 账号</b>认证;不可商业化再分发。</li>
+<li>唯一公开价格是网页版席位价:A$175+GST/月(合作页折扣价 $90+GST),<b>并非 API 价格</b>。</li>
+<li>Rex、SalesTrekker、Realtair 等集成均需每个经纪自购席位;数据不得用于直接营销。</li></ul>
+
+<h2>PropTrack</h2>
+<ul><li>公开 developer.proptrack.com.au:地址匹配、房产摘要/属性、成交、估价、市场供需、人口统计、报告 PDF 等。</li>
+<li>无自助 key、无公开价格、无免费层;试用范围由客户经理决定。</li>
+<li>收费模式(ACCC 文件):订阅或按用量,含阶梯折扣。</li>
+<li>是获取 realestate.com.au 衍生数据的合法途径。</li></ul>
+
+<h2>Cotality</h2>
+<ul><li>最封闭:连 API 目录都需登录;试用需有效 ABN 并经批准。</li>
+<li>宣传产品:Commercial API(600+ 数据点)、Cordell Construction API、AVM(覆盖 96% 住宅)、租金 AVM(97%)、Propensity to List、Property Monitor(均为厂商自述)。</li>
+<li>终端条款最严:禁转售、禁抓取、禁并入其他产品;终止后须归还/销毁;适用新州法律。</li>
+<li>无澳洲公开价格页。</li></ul>
+
+<h2>realestate.com.au</h2>
+<ul><li>可通过 REAXML 免费<b>推送</b>房源;没有公开的数据<b>拉取</b> API。</li>
+<li>条款禁止任何自动化抓取;robots.txt 禁止所有主流 AI 爬虫(仅允许 Applebot)。</li>
+<li>REA 曾起诉 Domain(2024-12 报道):指控 181 条独家房源被抓取并出现在 Pricefinder;截至 2026-07-29 结果未能核实。</li></ul>
+
+<h2>有公开价格的替代方案(偏规划/选址)</h2>
+<table><tr><th>公司</th><th>价格</th><th>备注</th></tr>
+<tr><td>Archistar</td><td>免费;Basic $63.33/月(年付);Pro $230/月;National $396.67/月(含 GST)</td><td>API 价格未公开</td></tr>
+<tr><td>Landchecker</td><td>免费;Advanced $200/月(年付,不含 GST,最多4人)</td><td>API 仅 Enterprise</td></tr>
+<tr><td>HtAG Analytics</td><td>未公开</td><td>87 个端点、7 个数据域、覆盖 537 个 LGA,含 MCP server,需申请</td></tr></table>
+
+<h2>仍未公开的信息</h2>
+<ul><li>Pricefinder API 包价格</li><li>Domain API 价格表</li><li>PropTrack 金额</li><li>Cotality 价格</li></ul>
+<p>价格与调用量挂钩,调用量取决于架构(如按页面浏览调用会很贵),设计前应书面询价。</p>
+
+<h2>建议</h2>
+<ol><li>想立刻原型验证 → 用 Domain 沙盒,但先核对其条款(境内托管、不可转售、不可营销、不可做 SEO)。</li>
+<li>需要 realestate.com.au 数据 → 走 PropTrack,不要抓取。</li>
+<li>CRM 集成 → 评估用户群里已付费 Pricefinder 席位的占比。</li>
+<li>先书面确认 API 权限与使用权,再定架构。</li></ol>
+</body></html>
